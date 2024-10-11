@@ -1,9 +1,9 @@
 package com.boardhub.BoardPi.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,15 @@ public class Usuario{
 
     @Column(nullable = false)
     private String nome;
+
     @Column(nullable = false)
     private String email;
+
     @Column(nullable = false)
     private String senha;
+
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataCadastro;
 
     @OneToMany (mappedBy = "criador", fetch = FetchType.LAZY)

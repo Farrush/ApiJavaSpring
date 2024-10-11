@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,16 +23,8 @@ public class ProjetoService {
         return projetoRepository.findAll();
     }
 
-    public List<Projeto> findByDataDeAlteracao(Date dataAlteracao) {
-        return projetoRepository.findByDataDeAlteracao(dataAlteracao);
-    }
-
     public List<Projeto> findByTitulo(String titulo) {
         return projetoRepository.findByTitulo(titulo);
-    }
-
-    public List<Projeto> findByDataCriacao(Date dataCriacao) {
-        return projetoRepository.findByDataDeCriacao(dataCriacao);
     }
 
     public Projeto updateProjeto(Long id, String titulo) {

@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 
 @Entity
 public class MembroProjeto {
-    public static final int MEMBRO = 0;
-    public static final int ADMIN = 1;
-    public static final int OBSERVADOR = 2;
+    public static final int ADMIN = 2;
+    public static final int MEMBRO = 1;
+    public static final int OBSERVADOR = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

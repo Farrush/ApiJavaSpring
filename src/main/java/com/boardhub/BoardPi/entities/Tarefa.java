@@ -1,5 +1,6 @@
 package com.boardhub.BoardPi.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.File;
@@ -35,12 +36,15 @@ public class Tarefa {
     private Prioridade tagPrioridade;
 
     @Column
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime prazo;
 
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataCriacao;
 
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataAlteracao;
 
     public Tarefa() {

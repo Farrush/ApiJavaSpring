@@ -1,5 +1,6 @@
 package com.boardhub.BoardPi.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Comentario {
     private Tarefa tarefa;
 
     @Column
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime comentadoEm;
 
     @ManyToOne

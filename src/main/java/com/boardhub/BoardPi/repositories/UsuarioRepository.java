@@ -17,4 +17,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("select t from Tarefa t inner join Lista l on l.projeto = :p where t.responsavel = :u")
     public List<Tarefa> findTarefasByUsuarioAndProjeto(Usuario u, Projeto p);
+
+    @Query("select u.id, u.email from Usuario u where u.email = :email and u.senha = :senha")
+    public Long validateUser(String email, String senha);
 }

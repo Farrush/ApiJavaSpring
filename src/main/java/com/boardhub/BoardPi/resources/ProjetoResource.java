@@ -5,8 +5,7 @@ import com.boardhub.BoardPi.services.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -28,19 +27,10 @@ public class ProjetoResource {
         return ResponseEntity.ok(projetoService.findAll());
     }
 
-    @GetMapping("/data-alteracao")
-    public ResponseEntity<List<Projeto>> getProjetosByDataAlteracao(@RequestParam Date dataAlteracao) {
-        return ResponseEntity.ok(projetoService.findByDataDeAlteracao(dataAlteracao));
-    }
 
-    @GetMapping("/titulo")
+    @GetMapping("/titulo/{titulo}")
     public ResponseEntity<List<Projeto>> getProjetosByTitulo(@RequestParam String titulo) {
         return ResponseEntity.ok(projetoService.findByTitulo(titulo));
-    }
-
-    @GetMapping("/data-criacao")
-    public ResponseEntity<List<Projeto>> getProjetosByDataCriacao(@RequestParam Date dataCriacao) {
-        return ResponseEntity.ok(projetoService.findByDataCriacao(dataCriacao));
     }
 
     @PutMapping("/{id}")

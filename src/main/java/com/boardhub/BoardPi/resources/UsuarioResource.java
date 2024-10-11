@@ -5,10 +5,12 @@ import com.boardhub.BoardPi.entities.Usuario;
 import com.boardhub.BoardPi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioResource {
@@ -46,6 +48,26 @@ public class UsuarioResource {
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity login(@RequestBody Usuario usuario){
+        try{
+            if(usuarioService.validaUsuario(usuario.getEmail(), usuario.getSenha()))
+                return ResponseEntity.ok().build();
+            else
+                throw new Exception("Email e senha incorretos");
+        }catch (Exception e){
+            return ResponseEntity.status(401).build();
+        }
+    }
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario){
+        try{
+            Usuario u = usuarioService.cadastrarUsuario(usuario);
+            return ResponseEntity.ok().body(u);
+        }catch (Exception e){
+            return ResponseEntity.status(400).body(null);
         }
     }
 }

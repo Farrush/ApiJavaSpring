@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -19,15 +20,20 @@ public class Projeto {
     private String titulo;
 
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataCriacao;
 
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataAlteracao;
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn
     @JsonBackReference
     private Usuario criador;
+
+    @Transient
+    private long idCriador;
 
     @OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -61,6 +67,7 @@ public class Projeto {
         this.membros = new ArrayList<>();
         this.listas = new ArrayList<>();
         this.prioridades = new ArrayList<>();
+        setIdCriador();
     }
 
     public void setId(Long id) {
@@ -119,6 +126,22 @@ public class Projeto {
         this.listas = listas;
     }
 
+    public long getIdCriador() {
+        return criador != null? criador.getId() : 0;
+    }
+
+    public void setIdCriador() {
+        this.idCriador = criador.getId();
+    }
+
+    public List<Prioridade> getPrioridades() {
+        return prioridades;
+    }
+
+    public void setPrioridades(List<Prioridade> prioridades) {
+        this.prioridades = prioridades;
+    }
+
     @Override
     public String toString() {
         return "Projeto{" +
@@ -126,7 +149,8 @@ public class Projeto {
                 ", titulo='" + titulo + '\'' +
                 ", dataCriacao=" + dataCriacao +
                 ", dataAlteracao=" + dataAlteracao +
-                ", criador=" + criador +
+                ", idCriador=" + getIdCriador() +
+                ", criador="+criador +
                 ", membros=" + membros +
                 ", listas=" + listas +
                 '}';

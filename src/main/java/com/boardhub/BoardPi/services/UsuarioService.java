@@ -13,10 +13,7 @@ import java.util.List;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
-    /*Fazer: Crud de usuário - feito
-    * Busca de usuário por id - feito
-    * Busca de projetos do usuário (dono) (id/projetos) - feito
-    * Busca de projetos que o usuário é membro (id/projetos/participando) - feito
+    /*Fazer:
     * Busca de tarefas que são de responsabilidade do usuário (id/tarefas) - feito mas precisa testar direito
     * Testar - A fazer
     * */
@@ -44,5 +41,17 @@ public class UsuarioService {
     }
     public List<Tarefa> getTarefas(Usuario usuario, Projeto projeto){
         return usuarioRepository.findTarefasByUsuarioAndProjeto(usuario, projeto);
+    }
+    public Usuario cadastrarUsuario(Usuario usuario){
+        return usuarioRepository.save(usuario);
+    }
+    public void alterarUsuario(Usuario usuario){
+        usuarioRepository.save(usuario);
+    }
+    public void removerUsuario(long id){
+        usuarioRepository.deleteById(id);
+    }
+    public boolean validaUsuario(String email, String senha){
+        return usuarioRepository.validateUser(email, senha) >= 0L;
     }
 }
