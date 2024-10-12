@@ -2,6 +2,7 @@ package com.boardhub.BoardPi.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -29,13 +30,13 @@ public class Projeto {
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn
-    @JsonBackReference
+    @JsonIgnore
     private Usuario criador;
 
     @Transient
     private long idCriador;
 
-    @OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
+    /*@OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<MembroProjeto> membros;
 
@@ -43,20 +44,17 @@ public class Projeto {
     private List<Lista> listas;
 
     @OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
-    private List<Prioridade> prioridades;
+    private List<Prioridade> prioridades;*/
 
     public Projeto() {
     }
 
-    public Projeto(Long id, String titulo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Usuario criador, List<MembroProjeto> membros, List<Lista> listas, List<Prioridade> prioridades) {
+    public Projeto(Long id, String titulo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Usuario criador) {
         this.id = id;
         this.titulo = titulo;
         this.dataCriacao = dataCriacao;
         this.dataAlteracao = dataAlteracao;
         this.criador = criador;
-        this.membros = membros;
-        this.listas = listas;
-        this.prioridades = prioridades;
     }
 
     public Projeto(String titulo, Usuario criador) {
@@ -64,9 +62,9 @@ public class Projeto {
         this.criador = criador;
         this.dataAlteracao = LocalDateTime.now();
         this.dataCriacao = LocalDateTime.now();
-        this.membros = new ArrayList<>();
-        this.listas = new ArrayList<>();
-        this.prioridades = new ArrayList<>();
+        //this.membros = new ArrayList<>();
+        //this.listas = new ArrayList<>();
+        //this.prioridades = new ArrayList<>();
         setIdCriador();
     }
 
@@ -110,7 +108,7 @@ public class Projeto {
         this.criador = criador;
     }
 
-    public List<MembroProjeto> getMembros() {
+    /*public List<MembroProjeto> getMembros() {
         return membros;
     }
 
@@ -125,6 +123,14 @@ public class Projeto {
     public void setListas(List<Lista> listas) {
         this.listas = listas;
     }
+    public List<Prioridade> getPrioridades() {
+        return prioridades;
+    }
+
+    public void setPrioridades(List<Prioridade> prioridades) {
+        this.prioridades = prioridades;
+    }
+    */
 
     public long getIdCriador() {
         return criador != null? criador.getId() : 0;
@@ -134,13 +140,7 @@ public class Projeto {
         this.idCriador = criador.getId();
     }
 
-    public List<Prioridade> getPrioridades() {
-        return prioridades;
-    }
 
-    public void setPrioridades(List<Prioridade> prioridades) {
-        this.prioridades = prioridades;
-    }
 
     @Override
     public String toString() {
@@ -151,8 +151,6 @@ public class Projeto {
                 ", dataAlteracao=" + dataAlteracao +
                 ", idCriador=" + getIdCriador() +
                 ", criador="+criador +
-                ", membros=" + membros +
-                ", listas=" + listas +
                 '}';
     }
 }

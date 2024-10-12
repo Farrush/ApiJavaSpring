@@ -1,5 +1,6 @@
 package com.boardhub.BoardPi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +12,11 @@ public class Prioridade {
 
     @JoinColumn
     @ManyToOne
+    @JsonIgnore
     private Projeto projeto;
+
+    @Transient
+    private long idProjeto;
 
     @Column
     private String prioridade;
@@ -24,6 +29,7 @@ public class Prioridade {
         this.projeto = projeto;
         this.prioridade = prioridade;
         this.cor = cor;
+        setIdProjeto();
     }
     public Prioridade() {
 
@@ -61,11 +67,20 @@ public class Prioridade {
         this.cor = cor;
     }
 
+    public long getIdProjeto() {
+        return idProjeto;
+    }
+
+    public void setIdProjeto() {
+        this.idProjeto = projeto != null ? projeto.getId() : 0;
+    }
+
     @Override
     public String toString() {
         return "Prioridade{" +
                 "id=" + id +
                 ", projeto=" + projeto +
+                ", idProjeto=" + getIdProjeto() +
                 ", prioridade='" + prioridade + '\'' +
                 ", cor='" + cor + '\'' +
                 '}';

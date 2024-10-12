@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
@@ -22,14 +23,15 @@ public class MembroProjeto {
 
     @ManyToOne
     @JoinColumn
-    @JsonBackReference
+    @JsonIgnore
     private Projeto projeto;
 
     @ManyToOne
     @JoinColumn
-    @JsonBackReference
+    @JsonIgnore
     private Usuario membro;
 
+    @Column
     private int nivelAutoridade;
 
     public MembroProjeto(Long id, Projeto projeto, Usuario membro, int nivelAutoridade) {
@@ -39,6 +41,8 @@ public class MembroProjeto {
         this.nivelAutoridade = nivelAutoridade;
         this.idProjeto = projeto.getId();
         this.idMembro = membro.getId();
+        setIdProjeto();
+        setIdMembro();
     }
 
     public MembroProjeto() {
@@ -89,19 +93,19 @@ public class MembroProjeto {
     }
 
     public long getIdMembro() {
-        return membro != null ? membro.getId() : 0;
+        return idMembro;
     }
 
-    public void setIdMembro(long idMembro) {
-        this.idMembro = idMembro;
+    public void setIdMembro() {
+        this.idMembro = membro != null ? membro.getId() : 0;
     }
 
     public long getIdProjeto() {
-        return projeto != null ? projeto.getId() : 0;
+        return idProjeto;
     }
 
-    public void setIdProjeto(long idProjeto) {
-        this.idProjeto = idProjeto;
+    public void setIdProjeto() {
+        this.idProjeto = projeto != null ? projeto.getId() : 0;
     }
 
     @Override

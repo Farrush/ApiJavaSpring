@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,11 @@ public class Comentario {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Tarefa tarefa;
+
+    @Transient
+    private long idTarefa;
 
     @Column
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
@@ -24,6 +29,7 @@ public class Comentario {
     @ManyToOne
     @JoinColumn
     private Usuario criador;
+
 
     public Comentario() {
     }
@@ -34,6 +40,7 @@ public class Comentario {
         this.tarefa = tarefa;
         this.comentadoEm = comentadoEm;
         this.criador = criador;
+        setIdTarefa();
     }
 
     public void setId(Long id) {
@@ -76,12 +83,21 @@ public class Comentario {
         this.criador = criador;
     }
 
+    public long getIdTarefa() {
+        return idTarefa;
+    }
+
+    public void setIdTarefa() {
+        this.idTarefa = tarefa != null ? tarefa.getId() : 0;
+    }
+
     @Override
     public String toString() {
         return "Comentario{" +
                 "id=" + id +
                 ", conteudo='" + conteudo + '\'' +
                 ", tarefa=" + tarefa +
+                ", idTarefa=" + getIdTarefa() +
                 ", comentadoEm=" + comentadoEm +
                 ", criador=" + criador +
                 '}';

@@ -51,23 +51,38 @@ public class UsuarioResource {
         }
     }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody Usuario usuario){
-        try{
-            if(usuarioService.validaUsuario(usuario.getEmail(), usuario.getSenha()))
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+        try {
+            if (usuarioService.validaUsuario(usuario.getEmail(), usuario.getSenha())) {
                 return ResponseEntity.ok().build();
-            else
+            } else {
                 throw new Exception("Email e senha incorretos");
-        }catch (Exception e){
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(401).build();
         }
     }
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) {
+        try {
+            Usuario u = usuarioService.saveUsuario(usuario);
+            System.out.println(u);
+            return ResponseEntity.ok().body(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Usuario> deletar(@PathVariable long id) {
         try{
-            Usuario u = usuarioService.cadastrarUsuario(usuario);
+            Usuario u = usuarioService.getUsuario(id);
+            usuarioService.deleteUsuario(u);
             return ResponseEntity.ok().body(u);
         }catch (Exception e){
-            return ResponseEntity.status(400).body(null);
+            e.printStackTrace();
+            return ResponseEntity.status(400).build();
         }
     }
 }

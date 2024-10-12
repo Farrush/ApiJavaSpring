@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.File;
@@ -18,18 +19,22 @@ public class Tarefa {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Usuario criador;
+
+    @Transient
+    private long idCriador;
 
     @ManyToOne
     @JoinColumn
     private Usuario responsavel;
 
+    @Transient
+    private long idResponsavel;
+
     @ManyToOne
     @JoinColumn
     private Lista lista;
-
-    @OneToMany (mappedBy = "tarefa")
-    private List<Comentario> comentarios;
 
     @OneToOne
     @JoinColumn
@@ -50,17 +55,18 @@ public class Tarefa {
     public Tarefa() {
     }
 
-    public Tarefa(Long id, String objetivo, Usuario criador, Usuario responsavel, List<Comentario> comentarios, Prioridade tagPrioridade, LocalDateTime prazo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Lista lista ) {
+    public Tarefa(Long id, String objetivo, Usuario criador, Usuario responsavel, Prioridade tagPrioridade, LocalDateTime prazo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Lista lista ) {
         this.id = id;
         this.objetivo = objetivo;
         this.criador = criador;
         this.responsavel = responsavel;
-        this.comentarios = comentarios;
         this.tagPrioridade = tagPrioridade;
         this.prazo = prazo;
         this.dataCriacao = dataCriacao;
         this.dataAlteracao = dataAlteracao;
         this.lista = lista;
+        setIdCriador();
+        setIdResponsavel();
     }
 
     public Tarefa(Long id, String objetivo, Usuario criador, Usuario responsavel, Prioridade tagPrioridade, Lista lista) {
@@ -72,8 +78,9 @@ public class Tarefa {
         this.prazo = null;
         this.dataCriacao = LocalDateTime.now();
         this.dataAlteracao = LocalDateTime.now();
-        this.comentarios = new ArrayList<>();
         this.lista = lista;
+        setIdCriador();
+        setIdResponsavel();
     }
 
     public Usuario getCriador() {
@@ -108,14 +115,6 @@ public class Tarefa {
         this.responsavel = responsavel;
     }
 
-    public List<Comentario> getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(List<Comentario> comentarios) {
-        this.comentarios = comentarios;
-    }
-
     public Prioridade getTagPrioridade() {
         return tagPrioridade;
     }
@@ -148,6 +147,30 @@ public class Tarefa {
         this.dataAlteracao = dataAlteracao;
     }
 
+    public long getIdCriador() {
+        return idCriador;
+    }
+
+    public void setIdCriador() {
+        this.idCriador = criador != null ? criador.getId() : 0;
+    }
+
+    public long getIdResponsavel() {
+        return idResponsavel;
+    }
+
+    public void setIdResponsavel() {
+        this.idResponsavel = responsavel != null ? responsavel.getId():0;
+    }
+
+    public Lista getLista() {
+        return lista;
+    }
+
+    public void setLista(Lista lista) {
+        this.lista = lista;
+    }
+
     @Override
     public String toString() {
         return "Tarefa{" +
@@ -155,7 +178,8 @@ public class Tarefa {
                 ", objetivo='" + objetivo + '\'' +
                 ", criador=" + criador +
                 ", responsavel=" + responsavel +
-                ", comentarios=" + comentarios +
+                ", idCriador=" + getIdCriador() +
+                ", idResponsavel=" + getIdResponsavel() +
                 ", tagPrioridade=" + tagPrioridade +
                 ", prazo=" + prazo +
                 ", dataCriacao=" + dataCriacao +

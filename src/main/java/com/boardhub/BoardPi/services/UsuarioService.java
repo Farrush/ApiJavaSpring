@@ -6,6 +6,7 @@ import com.boardhub.BoardPi.entities.Usuario;
 import com.boardhub.BoardPi.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,8 +28,15 @@ public class UsuarioService {
     public Usuario updateUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
     }
-    public void deleteUsuario(long id){
-        usuarioRepository.deleteById(id);
+
+    @Transactional
+    public void deleteUsuario(Usuario u){
+        usuarioRepository.deleteUsuarioDeMembro(u);
+        usuarioRepository.deleteComentarios(u);
+        usuarioRepository.updateCriador(u);
+        usuarioRepository.updateTarefaDoUsuario(u);
+        usuarioRepository.updateResponsabilidadeDoUsuario(u);
+        usuarioRepository.deleteById(u.getId());
     }
     public Usuario saveUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
@@ -41,15 +49,6 @@ public class UsuarioService {
     }
     public List<Tarefa> getTarefas(Usuario usuario, Projeto projeto){
         return usuarioRepository.findTarefasByUsuarioAndProjeto(usuario, projeto);
-    }
-    public Usuario cadastrarUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
-    }
-    public void alterarUsuario(Usuario usuario){
-        usuarioRepository.save(usuario);
-    }
-    public void removerUsuario(long id){
-        usuarioRepository.deleteById(id);
     }
     public boolean validaUsuario(String email, String senha){
         return usuarioRepository.validateUser(email, senha) >= 0L;
