@@ -36,6 +36,12 @@ public class Lista {
     public Lista() {
     }
 
+    public Lista(String titulo, int maxTarefas, Projeto projeto) {
+        this.titulo = titulo;
+        this.maxTarefas = maxTarefas;
+        this.projeto = projeto;
+        setIdProjeto();
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -71,11 +77,11 @@ public class Lista {
     }
 
     public long getIdProjeto() {
-        return idProjeto;
+        return projeto != null? projeto.getId() : 0;
     }
 
     public void setIdProjeto() {
-        this.idProjeto = this.projeto != null ? this.projeto.getId() : 0;
+        this.idProjeto = this.projeto.getId();
     }
 
     @Override
@@ -84,7 +90,7 @@ public class Lista {
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", maxTarefas=" + maxTarefas +
-                ", idProjeto=" + getIdProjeto() +
+                ", idProjeto=" + projeto.getId() +
                 ", projeto=" + projeto +
                 '}';
     }

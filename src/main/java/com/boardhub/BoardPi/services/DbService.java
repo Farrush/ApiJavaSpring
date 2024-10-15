@@ -1,8 +1,10 @@
 package com.boardhub.BoardPi.services;
 
+import com.boardhub.BoardPi.entities.Lista;
 import com.boardhub.BoardPi.entities.MembroProjeto;
 import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.entities.Usuario;
+import com.boardhub.BoardPi.repositories.ListaRepository;
 import com.boardhub.BoardPi.repositories.MembroProjetoRepository;
 import com.boardhub.BoardPi.repositories.ProjetoRepository;
 import com.boardhub.BoardPi.repositories.UsuarioRepository;
@@ -22,6 +24,9 @@ public class DbService {
 
     @Autowired
     private MembroProjetoRepository membroProjetoRepository;
+
+    @Autowired
+    private ListaRepository listaRepository;
 
     public void criarDadosH2(){
         Usuario usu1 = new Usuario("Fernando", "fer14@gmail.com", "12345678");
@@ -49,5 +54,11 @@ public class DbService {
 
         membroProjetoRepository.saveAll(List.of(mp1, mp2, mp3));
 
+        Lista l1 = new Lista("Lista 1", 7, p1);
+        Lista l2 = new Lista("Lista 2", 6, p1);
+        Lista l3 = new Lista("Lista 1", 6, p2);
+        Lista l4 = new Lista("Lista 1", 6, p3);
+
+        listaRepository.saveAll(List.of(l1,l2,l3,l4));
     }
 }

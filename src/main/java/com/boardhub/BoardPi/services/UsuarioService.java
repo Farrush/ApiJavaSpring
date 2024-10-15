@@ -14,10 +14,6 @@ import java.util.List;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
-    /*Fazer:
-    * Busca de tarefas que são de responsabilidade do usuário (id/tarefas) - feito mas precisa testar direito
-    * Testar - A fazer
-    * */
 
     public List<Usuario> getUsuarios(){
         return usuarioRepository.findAll();

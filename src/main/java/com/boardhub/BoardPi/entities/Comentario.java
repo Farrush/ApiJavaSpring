@@ -84,11 +84,11 @@ public class Comentario {
     }
 
     public long getIdTarefa() {
-        return idTarefa;
+        return tarefa != null? tarefa.getId() : 0;
     }
 
     public void setIdTarefa() {
-        this.idTarefa = tarefa != null ? tarefa.getId() : 0;
+        this.idTarefa = tarefa.getId();
     }
 
     @Override

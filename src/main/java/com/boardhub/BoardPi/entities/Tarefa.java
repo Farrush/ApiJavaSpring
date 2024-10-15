@@ -148,19 +148,19 @@ public class Tarefa {
     }
 
     public long getIdCriador() {
-        return idCriador;
+        return criador != null? criador.getId() : 0;
     }
 
     public void setIdCriador() {
-        this.idCriador = criador != null ? criador.getId() : 0;
+        this.idCriador = criador.getId();
     }
 
     public long getIdResponsavel() {
-        return idResponsavel;
+        return responsavel != null? responsavel.getId() : 0;
     }
 
     public void setIdResponsavel() {
-        this.idResponsavel = responsavel != null ? responsavel.getId():0;
+        this.idResponsavel = responsavel.getId();
     }
 
     public Lista getLista() {

@@ -5,18 +5,15 @@ import com.boardhub.BoardPi.repositories.ProjetoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjetoService {
     @Autowired
     private ProjetoRepository projetoRepository;
 
-    public Optional<Projeto> findById(Long id) {
-        return projetoRepository.findById(id);
+    public Projeto findById(Long id) {
+        return projetoRepository.findById(id).orElse(null);
     }
 
     public List<Projeto> findAll() {
@@ -27,13 +24,13 @@ public class ProjetoService {
         return projetoRepository.findByTitulo(titulo);
     }
 
-    public Projeto updateProjeto(Long id, String titulo) {
-        Optional<Projeto> optionalProjeto = projetoRepository.findById(id);
-        if (optionalProjeto.isPresent()) {
-            Projeto projeto = optionalProjeto.get();
-            projeto.setTitulo(titulo);
-            return projetoRepository.save(projeto);
-        }
-        return null;
+    public Projeto addProjeto(Projeto projeto) {
+        return projetoRepository.save(projeto);
+    }
+    public Projeto updateProjeto(Projeto projeto) {
+        return projetoRepository.save(projeto);
+    }
+    public void deleteProjeto(long id) {
+        projetoRepository.deleteById(id);
     }
 }

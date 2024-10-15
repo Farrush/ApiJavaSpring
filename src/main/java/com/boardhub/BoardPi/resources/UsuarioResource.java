@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.resources;
 
 import com.boardhub.BoardPi.entities.Projeto;
+import com.boardhub.BoardPi.entities.Tarefa;
 import com.boardhub.BoardPi.entities.Usuario;
 import com.boardhub.BoardPi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 36000)
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioResource {
@@ -84,5 +85,10 @@ public class UsuarioResource {
             e.printStackTrace();
             return ResponseEntity.status(400).build();
         }
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Usuario alterar(@PathVariable long id, @RequestBody Usuario usuario){
+        usuario.setId(id);
+        return usuarioService.updateUsuario(usuario);
     }
 }

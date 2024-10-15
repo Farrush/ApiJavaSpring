@@ -68,11 +68,11 @@ public class Prioridade {
     }
 
     public long getIdProjeto() {
-        return idProjeto;
+        return projeto != null? projeto.getId() : 0;
     }
 
     public void setIdProjeto() {
-        this.idProjeto = projeto != null ? projeto.getId() : 0;
+        this.idProjeto = projeto.getId();
     }
 
     @Override

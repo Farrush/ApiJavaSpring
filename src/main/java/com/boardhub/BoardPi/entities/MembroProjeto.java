@@ -93,19 +93,19 @@ public class MembroProjeto {
     }
 
     public long getIdMembro() {
-        return idMembro;
+        return membro != null ? membro.getId() : 0;
     }
 
     public void setIdMembro() {
-        this.idMembro = membro != null ? membro.getId() : 0;
+        this.idMembro = membro.getId();
     }
 
     public long getIdProjeto() {
-        return idProjeto;
+        return projeto != null? projeto.getId() : 0;
     }
 
     public void setIdProjeto() {
-        this.idProjeto = projeto != null ? projeto.getId() : 0;
+        this.idProjeto = projeto.getId();
     }
 
     @Override
