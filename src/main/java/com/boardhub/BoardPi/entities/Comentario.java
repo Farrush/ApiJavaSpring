@@ -9,12 +9,13 @@ import java.time.LocalDateTime;
 @Entity
 public class Comentario {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
     private String conteudo;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
     @JsonIgnore
     private Tarefa tarefa;
@@ -26,7 +27,7 @@ public class Comentario {
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime comentadoEm;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
     private Usuario criador;
 
@@ -41,6 +42,14 @@ public class Comentario {
         this.comentadoEm = comentadoEm;
         this.criador = criador;
         setIdTarefa();
+    }
+
+    public Comentario(String conteudo, Tarefa tarefa, Usuario criador) {
+        this.conteudo = conteudo;
+        this.tarefa = tarefa;
+        this.comentadoEm = LocalDateTime.now();
+        this.criador = criador;
+       setIdTarefa();
     }
 
     public void setId(Long id) {

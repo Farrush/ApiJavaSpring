@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.services;
 
 
+import com.boardhub.BoardPi.entities.Lista;
 import com.boardhub.BoardPi.entities.Tarefa;
 import com.boardhub.BoardPi.repositories.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,8 @@ public class TarefaService {
     }
     public void deleteTarefa(long id) {
         tarefaRepository.deleteById(id);
+    }
+    public List<Tarefa> getPorLista(Lista lista){
+        return tarefaRepository.findByLista(lista);
     }
 }

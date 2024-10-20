@@ -21,12 +21,12 @@ public class MembroProjeto {
     @Transient
     private long idProjeto;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
     @JsonIgnore
     private Projeto projeto;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
     @JsonIgnore
     private Usuario membro;

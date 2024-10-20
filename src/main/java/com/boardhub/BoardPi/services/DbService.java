@@ -1,13 +1,7 @@
 package com.boardhub.BoardPi.services;
 
-import com.boardhub.BoardPi.entities.Lista;
-import com.boardhub.BoardPi.entities.MembroProjeto;
-import com.boardhub.BoardPi.entities.Projeto;
-import com.boardhub.BoardPi.entities.Usuario;
-import com.boardhub.BoardPi.repositories.ListaRepository;
-import com.boardhub.BoardPi.repositories.MembroProjetoRepository;
-import com.boardhub.BoardPi.repositories.ProjetoRepository;
-import com.boardhub.BoardPi.repositories.UsuarioRepository;
+import com.boardhub.BoardPi.entities.*;
+import com.boardhub.BoardPi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +21,12 @@ public class DbService {
 
     @Autowired
     private ListaRepository listaRepository;
+    @Autowired
+    private TarefaRepository tarefaRepository;
+    @Autowired
+    private PrioridadeRepository prioridadeRepository;
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     public void criarDadosH2(){
         Usuario usu1 = new Usuario("Fernando", "fer14@gmail.com", "12345678");
@@ -58,7 +58,33 @@ public class DbService {
         Lista l2 = new Lista("Lista 2", 6, p1);
         Lista l3 = new Lista("Lista 1", 6, p2);
         Lista l4 = new Lista("Lista 1", 6, p3);
+        l1.setId(1L);
+        l2.setId(2L);
+        l3.setId(3L);
+        l4.setId(4L);
 
         listaRepository.saveAll(List.of(l1,l2,l3,l4));
+
+        Prioridade pri1 = new Prioridade(p1, "Importante", "#FF0000");
+        prioridadeRepository.save(pri1);
+        pri1.setId(1L);
+
+        Tarefa t1 = new Tarefa("Fazer o Teste", usu1, null, l1);
+        t1.setTagPrioridade(pri1);
+        Tarefa t2 = new Tarefa("Verificar", usu2, null, l1);
+        Tarefa t3 = new Tarefa("Back-end", usu2, null, l4);
+
+        tarefaRepository.saveAll(List.of(t1,t2,t3));
+        t1.setId(1L);
+        t2.setId(2L);
+        t3.setId(3L);
+
+        Comentario com1 = new Comentario("Legal",t1, usu1);
+        Comentario com2 = new Comentario("louco",t1, usu2);
+        Comentario com3 = new Comentario("Legal",t3, usu3);
+        Comentario com4 = new Comentario("Legal",t3, usu1);
+
+        comentarioRepository.saveAll(List.of(com1, com2, com3, com4));
+
     }
 }

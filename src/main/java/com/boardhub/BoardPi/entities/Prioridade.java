@@ -3,6 +3,8 @@ package com.boardhub.BoardPi.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Prioridade {
 
@@ -11,12 +13,16 @@ public class Prioridade {
     private Long id;
 
     @JoinColumn
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JsonIgnore
     private Projeto projeto;
 
     @Transient
     private long idProjeto;
+
+    @OneToMany(orphanRemoval = false, cascade = CascadeType.MERGE, mappedBy = "tagPrioridade")
+    @JsonIgnore
+    public List<Tarefa> tarefas;
 
     @Column
     private String prioridade;
@@ -33,6 +39,13 @@ public class Prioridade {
     }
     public Prioridade() {
 
+    }
+
+    public Prioridade(Projeto projeto,String prioridade, String cor) {
+        this.projeto = projeto;
+        this.prioridade = prioridade;
+        this.cor = cor;
+        setIdProjeto();
     }
 
     public void setId(Long id) {

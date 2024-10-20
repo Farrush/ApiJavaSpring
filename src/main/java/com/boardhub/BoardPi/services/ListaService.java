@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.services;
 
 import com.boardhub.BoardPi.entities.Lista;
+import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.repositories.ListaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,8 @@ public class ListaService {
     }
     public void deleteLista(long id) {
         listaRepository.deleteById(id);
+    }
+    public List<Lista> getPorProjeto(Projeto projeto) {
+        return listaRepository.findByProjeto(projeto);
     }
 }

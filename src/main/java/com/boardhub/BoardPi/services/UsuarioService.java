@@ -27,9 +27,9 @@ public class UsuarioService {
 
     @Transactional
     public void deleteUsuario(Usuario u){
-        usuarioRepository.deleteUsuarioDeMembro(u);
-        usuarioRepository.deleteComentarios(u);
-        usuarioRepository.updateCriador(u);
+        //usuarioRepository.deleteUsuarioDeMembro(u);
+        //usuarioRepository.deleteComentarios(u);
+        //usuarioRepository.updateCriador(u);
         usuarioRepository.updateTarefaDoUsuario(u);
         usuarioRepository.updateResponsabilidadeDoUsuario(u);
         usuarioRepository.deleteById(u.getId());

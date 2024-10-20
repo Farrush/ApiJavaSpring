@@ -2,6 +2,7 @@ package com.boardhub.BoardPi.services;
 
 import com.boardhub.BoardPi.entities.Comentario;
 import com.boardhub.BoardPi.entities.Lista;
+import com.boardhub.BoardPi.entities.Tarefa;
 import com.boardhub.BoardPi.repositories.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class ComentarioService {
     private ComentarioRepository comentarioRepository;
     public List<Comentario> getComentarios() {
         return comentarioRepository.findAll();
+    }
+    public List<Comentario> getPorTarefa(Tarefa tarefa) {
+        return comentarioRepository.findByTarefa(tarefa);
     }
     public Comentario getComentario(long id) {
         return comentarioRepository.findById(id).orElse(null);

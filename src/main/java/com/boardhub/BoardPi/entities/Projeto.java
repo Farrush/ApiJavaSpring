@@ -28,33 +28,39 @@ public class Projeto {
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataAlteracao;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
     @JsonIgnore
     private Usuario criador;
 
+    @OneToMany (cascade = CascadeType.REMOVE, mappedBy = "projeto", orphanRemoval = true)
+    @JsonIgnore
+    public List<Lista> listas;
+
+    @OneToMany (cascade = CascadeType.REMOVE, mappedBy = "projeto", orphanRemoval = true)
+    @JsonIgnore
+    public List<MembroProjeto> membros;
+
+    @OneToMany (cascade = CascadeType.REMOVE, mappedBy = "projeto", orphanRemoval = true)
+    @JsonIgnore
+    public List<Prioridade> prioridades;
+
     @Transient
     private long idCriador;
-
-    /*@OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<MembroProjeto> membros;
-
-    @OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
-    private List<Lista> listas;
-
-    @OneToMany (mappedBy = "projeto", fetch = FetchType.LAZY)
-    private List<Prioridade> prioridades;*/
 
     public Projeto() {
     }
 
-    public Projeto(Long id, String titulo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Usuario criador) {
+    public Projeto(Long id, String titulo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Usuario criador, List<Lista> listas, List<MembroProjeto> membros, List<Prioridade> prioridades) {
         this.id = id;
         this.titulo = titulo;
         this.dataCriacao = dataCriacao;
         this.dataAlteracao = dataAlteracao;
         this.criador = criador;
+        this.listas = listas;
+        this.membros = membros;
+        this.prioridades = prioridades;
+        setIdCriador();
     }
 
     public Projeto(String titulo, Usuario criador) {
@@ -62,9 +68,9 @@ public class Projeto {
         this.criador = criador;
         this.dataAlteracao = LocalDateTime.now();
         this.dataCriacao = LocalDateTime.now();
-        //this.membros = new ArrayList<>();
-        //this.listas = new ArrayList<>();
-        //this.prioridades = new ArrayList<>();
+        this.membros = new ArrayList<>();
+        this.listas = new ArrayList<>();
+        this.prioridades = new ArrayList<>();
         setIdCriador();
     }
 
@@ -108,7 +114,7 @@ public class Projeto {
         this.criador = criador;
     }
 
-    /*public List<MembroProjeto> getMembros() {
+    public List<MembroProjeto> getMembros() {
         return membros;
     }
 
@@ -130,7 +136,7 @@ public class Projeto {
     public void setPrioridades(List<Prioridade> prioridades) {
         this.prioridades = prioridades;
     }
-    */
+
 
     public long getIdCriador() {
         return criador != null? criador.getId() : 0;

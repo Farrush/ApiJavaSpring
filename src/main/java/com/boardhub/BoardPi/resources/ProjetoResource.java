@@ -25,7 +25,6 @@ public class ProjetoResource {
         return ResponseEntity.ok().body(projetoService.findById(id));
     }
 
-
     @GetMapping
     public ResponseEntity<List<Projeto>> getAllProjetos() {
         return ResponseEntity.ok(projetoService.findAll());
@@ -45,8 +44,11 @@ public class ProjetoResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Projeto alterar(@PathVariable long id, @RequestBody Projeto projeto){
-        projeto.setId(id);
-        return projetoService.updateProjeto(projeto);
+        Projeto p = projetoService.findById(id);
+        p.setTitulo(projeto.getTitulo());
+        p.setDataAlteracao(projeto.getDataAlteracao());
+        projetoService.updateProjeto(p);
+        return p;
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity remover(@PathVariable long id) {

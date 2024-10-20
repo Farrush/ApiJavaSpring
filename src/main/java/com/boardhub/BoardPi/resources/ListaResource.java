@@ -30,6 +30,10 @@ public class ListaResource {
     public Lista buscaPorId(@PathVariable long id) {
         return listaService.getLista(id);
     }
+    @RequestMapping(value = "/projeto/{id}")
+    public Lista buscaPorProjeto(@PathVariable long id) {
+        return listaService.getLista(id);
+    }
 
     @RequestMapping(value = "/projeto/{id}", method = RequestMethod.POST)
     public Lista adicionar(@PathVariable long id, @RequestBody Lista lista){

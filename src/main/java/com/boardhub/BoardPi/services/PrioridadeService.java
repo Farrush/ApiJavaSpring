@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.services;
 
 import com.boardhub.BoardPi.entities.Prioridade;
+import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.repositories.PrioridadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,8 @@ public class PrioridadeService {
     }
     public void deletePrioridade(long id) {
         prioridadeRepository.deleteById(id);
+    }
+    public List<Prioridade> getPorProjeto(Projeto projeto) {
+        return prioridadeRepository.findByProjeto(projeto);
     }
 }

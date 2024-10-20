@@ -12,31 +12,41 @@ import java.util.List;
 @Entity
 public class Tarefa {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String objetivo;
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne (cascade = CascadeType.REFRESH, optional = true)
+    @JoinColumn (nullable = true)
     @JsonIgnore
     private Usuario criador;
 
     @Transient
     private long idCriador;
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne (cascade = CascadeType.REFRESH, optional = true)
+    @JoinColumn (nullable = true)
+    @JsonIgnore
     private Usuario responsavel;
 
     @Transient
     private long idResponsavel;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
+    @JsonIgnore
     private Lista lista;
 
-    @OneToOne
+    @Transient
+    private long idLista;
+
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "tarefa", orphanRemoval = true )
+    @JsonIgnore
+    public List<Comentario> comentarios;
+
+    @ManyToOne (cascade = CascadeType.REFRESH, optional = true)
     @JoinColumn
     private Prioridade tagPrioridade;
 
@@ -69,18 +79,17 @@ public class Tarefa {
         setIdResponsavel();
     }
 
-    public Tarefa(Long id, String objetivo, Usuario criador, Usuario responsavel, Prioridade tagPrioridade, Lista lista) {
-        this.id = id;
+    public Tarefa(String objetivo, Usuario criador, Usuario responsavel, Lista lista) {
         this.objetivo = objetivo;
         this.criador = criador;
         this.responsavel = responsavel;
-        this.tagPrioridade = tagPrioridade;
+        this.tagPrioridade = null;
         this.prazo = null;
         this.dataCriacao = LocalDateTime.now();
         this.dataAlteracao = LocalDateTime.now();
         this.lista = lista;
         setIdCriador();
-        setIdResponsavel();
+        setIdLista();
     }
 
     public Usuario getCriador() {
@@ -154,6 +163,13 @@ public class Tarefa {
     public void setIdCriador() {
         this.idCriador = criador.getId();
     }
+    public long getIdLista() {
+        return criador != null? lista.getId() : 0;
+    }
+
+    public void setIdLista() {
+        this.idCriador = lista.getId();
+    }
 
     public long getIdResponsavel() {
         return responsavel != null? responsavel.getId() : 0;
@@ -180,6 +196,7 @@ public class Tarefa {
                 ", responsavel=" + responsavel +
                 ", idCriador=" + getIdCriador() +
                 ", idResponsavel=" + getIdResponsavel() +
+                ", idLista="+getIdLista()+
                 ", tagPrioridade=" + tagPrioridade +
                 ", prazo=" + prazo +
                 ", dataCriacao=" + dataCriacao +

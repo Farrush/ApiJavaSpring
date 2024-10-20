@@ -17,10 +17,14 @@ public class Lista {
     @Column
     private int maxTarefas;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn
     @JsonIgnore
     private Projeto projeto;
+
+    @OneToMany (mappedBy = "lista", cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Tarefa> tarefas;
 
     @Transient
     private long idProjeto;

@@ -33,7 +33,7 @@ public class TarefaResource {
         return tarefaService.getTarefa(id);
     }
 
-    @RequestMapping(value = "/lista/{idLista}/criador/{idCriador", method = RequestMethod.POST)
+    @RequestMapping(value = "/lista/{idLista}/criador/{idCriador}", method = RequestMethod.POST)
     public Tarefa adicionar(@PathVariable long idLista, @PathVariable long idCriador, @RequestBody Tarefa tarefa) {
         tarefa.setLista(listaService.getLista(idLista));
         tarefa.setCriador(usuarioService.getUsuario(idCriador));

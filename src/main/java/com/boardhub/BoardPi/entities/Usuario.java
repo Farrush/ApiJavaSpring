@@ -1,7 +1,7 @@
 package com.boardhub.BoardPi.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -27,26 +27,39 @@ public class Usuario{
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataCadastro;
 
-    /*@OneToMany (mappedBy = "criador", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany (mappedBy = "criador", orphanRemoval = true, cascade = CascadeType.MERGE)
+    @JsonIgnore
     private List<Projeto> projetos;
 
-    @OneToMany (mappedBy = "membro", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<MembroProjeto> membroDe;*/
+    @OneToMany (mappedBy = "criador", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Comentario> comentarios;
+
+    @OneToMany (mappedBy = "criador")
+    @JsonIgnore
+    public List<Tarefa> tarefasCriadas;
+
+    @OneToMany (mappedBy = "responsavel")
+    @JsonIgnore
+    public List<Tarefa> tarefasResponsavel;
+
+
+    @OneToMany (mappedBy = "membro",  orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<MembroProjeto> membroDe;
 
     public Usuario() {
 
     }
 
-    public Usuario(Long id, String nome, String email, String senha, LocalDateTime dataCadastro /*List<Projeto> projetos, List<MembroProjeto> membroDe*/) {
+    public Usuario(Long id, String nome, String email, String senha, LocalDateTime dataCadastro, List<Projeto> projetos, List<MembroProjeto> membroDe) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.dataCadastro = dataCadastro;
-        //this.projetos = projetos;
-        //this.membroDe = membroDe;
+        this.projetos = projetos;
+        this.membroDe = membroDe;
     }
 
     public Usuario(String nome, String email, String senha) {
@@ -54,8 +67,8 @@ public class Usuario{
         this.email = email;
         this.senha = senha;
         this.dataCadastro = LocalDateTime.now();
-        //this.projetos = new ArrayList<>();
-        //this.membroDe = new ArrayList<>();
+        this.projetos = new ArrayList<>();
+        this.membroDe = new ArrayList<>();
     }
 
     public String getNome() {
@@ -89,7 +102,7 @@ public class Usuario{
     public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
-/*
+
     public List<Projeto> getProjetos() {
         return projetos;
     }
@@ -105,7 +118,7 @@ public class Usuario{
     public void setMembroDe(List<MembroProjeto> membroDe) {
         this.membroDe = membroDe;
     }
-*/
+
     public void setId(Long id) {
         this.id = id;
     }
