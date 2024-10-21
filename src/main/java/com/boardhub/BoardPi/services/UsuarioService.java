@@ -1,14 +1,17 @@
 package com.boardhub.BoardPi.services;
 
+import com.boardhub.BoardPi.dto.LoginDTO;
 import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.entities.Tarefa;
 import com.boardhub.BoardPi.entities.Usuario;
 import com.boardhub.BoardPi.repositories.UsuarioRepository;
+import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -21,8 +24,8 @@ public class UsuarioService {
     public Usuario getUsuario(long id){
         return usuarioRepository.findById(id).orElse(null);
     }
-    public Usuario updateUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
+    public void updateUsuario(Usuario usuario){
+        usuarioRepository.updManual(usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getId());
     }
 
     @Transactional
@@ -34,19 +37,21 @@ public class UsuarioService {
         usuarioRepository.updateResponsabilidadeDoUsuario(u);
         usuarioRepository.deleteById(u.getId());
     }
-    public Usuario saveUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
+    public void saveUsuario(Usuario usuario){
+        usuarioRepository.saveManual(usuario.getNome(), usuario.getEmail(), usuario.getSenha(), usuario.getDataCadastro());
     }
-    public List<Projeto> getProjetos(Usuario usuario){
-        return usuarioRepository.findProjectsByUsuario(usuario);
-    }
-    public List<Projeto> getProjetosParticipados(Usuario usuario){
-        return usuarioRepository.findProjectsByMembro(usuario);
-    }
-    public List<Tarefa> getTarefas(Usuario usuario, Projeto projeto){
-        return usuarioRepository.findTarefasByUsuarioAndProjeto(usuario, projeto);
-    }
-    public boolean validaUsuario(String email, String senha){
-        return usuarioRepository.validateUser(email, senha) >= 0L;
+
+    public LoginDTO validaUsuario(String email, String senha) throws Exception{
+        Optional<Tuple> result = usuarioRepository.validateUser(email, senha);
+
+        if (result.isPresent()) {
+            LoginDTO dto;
+            dto = result.stream()
+                    .map(l -> new LoginDTO(l.get(0, Long.class), l.get(1, String.class)))
+                    .findFirst().orElse(null);
+
+            return dto;
+        }
+        return null;
     }
 }

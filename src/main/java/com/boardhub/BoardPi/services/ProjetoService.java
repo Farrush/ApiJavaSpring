@@ -40,7 +40,9 @@ public class ProjetoService {
     public List<Projeto> findByCriador(Usuario criador){
         return projetoRepository.findByCriador(criador);
     }
-
+    public List<Projeto> getProjetosParticipados(Usuario usuario){
+        return projetoRepository.findProjectsByMembro(usuario);
+    }
     public Projeto addProjeto(Projeto projeto) {
         return projetoRepository.save(projeto);
     }

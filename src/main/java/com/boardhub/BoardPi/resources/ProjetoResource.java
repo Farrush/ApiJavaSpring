@@ -2,6 +2,7 @@ package com.boardhub.BoardPi.resources;
 
 import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.entities.Tarefa;
+import com.boardhub.BoardPi.entities.Usuario;
 import com.boardhub.BoardPi.services.ProjetoService;
 import com.boardhub.BoardPi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,29 @@ public class ProjetoResource {
         p.setDataAlteracao(projeto.getDataAlteracao());
         projetoService.updateProjeto(p);
         return p;
+    }
+    @RequestMapping(value = "/criador/{id}")
+    public List<Projeto> getProjetos(@PathVariable(value = "id") long id){
+        try{
+            Usuario u = usuarioService.getUsuario(id);
+            List<Projeto> lp =  projetoService.findByCriador(u);
+            return lp;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    @RequestMapping(value = "/membro/{id}")
+    public List<Projeto> getProjetoParticipando(@PathVariable() long id){
+        try{
+            Usuario u = usuarioService.getUsuario(id);
+            List<Projeto> lp =  projetoService.getProjetosParticipados(u);
+            return lp;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity remover(@PathVariable long id) {

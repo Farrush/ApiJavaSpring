@@ -27,13 +27,26 @@ public class DbService {
     private PrioridadeRepository prioridadeRepository;
     @Autowired
     private ComentarioRepository comentarioRepository;
+    public void criarDadosMySQL() {
+        Usuario usu1 = new Usuario("Fernando", "fer14@gmail.com", "12345678");
+        Usuario usu2 = new Usuario("Ana", "anaa@gmail.com", "12345678");
+        Usuario usu3 = new Usuario("Rob", "robert@gmail.com", "12345678");
 
+        usuarioRepository.saveManual(usu1.getNome(), usu1.getEmail(), usu1.getSenha(), usu1.getDataCadastro());
+        usuarioRepository.saveManual(usu2.getNome(), usu2.getEmail(), usu2.getSenha(), usu2.getDataCadastro());
+        usuarioRepository.saveManual(usu3.getNome(),usu3.getEmail(),usu3.getSenha(),usu3.getDataCadastro());
+
+    }
     public void criarDadosH2(){
         Usuario usu1 = new Usuario("Fernando", "fer14@gmail.com", "12345678");
         Usuario usu2 = new Usuario("Ana", "anaa@gmail.com", "12345678");
         Usuario usu3 = new Usuario("Rob", "robert@gmail.com", "12345678");
 
-        usuarioRepository.saveAll(List.of(usu1, usu2, usu3));
+        usuarioRepository.saveManual(usu1.getNome(), usu1.getEmail(), usu1.getSenha(), usu1.getDataCadastro());
+        usuarioRepository.saveManual(usu2.getNome(), usu2.getEmail(), usu2.getSenha(), usu2.getDataCadastro());
+        usuarioRepository.saveManual(usu3.getNome(),usu3.getEmail(),usu3.getSenha(),usu3.getDataCadastro());
+
+
         usu1 = usuarioRepository.findById(1L).orElse(null);
         usu2 = usuarioRepository.findById(2L).orElse(null);
         usu3 = usuarioRepository.findById(3L).orElse(null);
@@ -85,6 +98,5 @@ public class DbService {
         Comentario com4 = new Comentario("Legal",t3, usu1);
 
         comentarioRepository.saveAll(List.of(com1, com2, com3, com4));
-
     }
 }
