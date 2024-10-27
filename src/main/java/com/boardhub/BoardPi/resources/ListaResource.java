@@ -2,6 +2,7 @@ package com.boardhub.BoardPi.resources;
 
 
 import com.boardhub.BoardPi.entities.Lista;
+import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.services.ListaService;
 import com.boardhub.BoardPi.services.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,9 @@ public class ListaResource {
         return listaService.getLista(id);
     }
     @RequestMapping(value = "/projeto/{id}")
-    public Lista buscaPorProjeto(@PathVariable long id) {
-        return listaService.getLista(id);
+    public List<Lista> buscaPorProjeto(@PathVariable long id) {
+        Projeto p = projetoService.findById(id);
+        return listaService.getPorProjeto(p);
     }
 
     @RequestMapping(value = "/projeto/{id}", method = RequestMethod.POST)

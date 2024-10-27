@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.resources;
 
 
+import com.boardhub.BoardPi.entities.Lista;
 import com.boardhub.BoardPi.entities.Tarefa;
 import com.boardhub.BoardPi.services.ListaService;
 import com.boardhub.BoardPi.services.TarefaService;
@@ -39,12 +40,26 @@ public class TarefaResource {
         tarefa.setCriador(usuarioService.getUsuario(idCriador));
         return tarefaService.addTarefa(tarefa);
     }
+    @RequestMapping(value = "/lista/{idLista}", method = RequestMethod.GET)
+    public List<Tarefa> buscaPorLista(@PathVariable long idLista) {
+        Lista l = listaService.getLista(idLista);
+        return tarefaService.getPorLista(l);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Tarefa alterar(@PathVariable long id, @RequestBody Tarefa tarefa){
         tarefa.setId(id);
         return tarefaService.updateTarefa(tarefa);
     }
+    @RequestMapping(value = "/{id}/lista/{idLista}", method = RequestMethod.PUT)
+    public Tarefa alterarListaDaTarefa(@PathVariable long id, @PathVariable long idLista) {
+        Tarefa tarefa = tarefaService.getTarefa(id);
+        Lista l = listaService.getLista(idLista);
+        tarefa.setLista(l);
+        tarefaService.updateTarefa(tarefa);
+        return tarefa;
+    }
+
     @RequestMapping(value = "/{id}/responsavel/{idResponsavel}", method = RequestMethod.PUT)
     public Tarefa alterar(@PathVariable long id, @PathVariable long idResponsavel, @RequestBody Tarefa tarefa){
         tarefa.setId(id);
