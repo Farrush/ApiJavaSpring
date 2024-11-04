@@ -155,7 +155,7 @@ public class Projeto {
                 ", titulo='" + titulo + '\'' +
                 ", dataCriacao=" + dataCriacao +
                 ", dataAlteracao=" + dataAlteracao +
-                ", idCriador=" + getIdCriador() +
+                ", idCriador=" + criador.getId() +
                 ", criador="+criador +
                 '}';
     }
