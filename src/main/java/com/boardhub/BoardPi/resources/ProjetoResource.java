@@ -43,6 +43,8 @@ public class ProjetoResource {
         if(c == null)
             return ResponseEntity.status(404).body(new String("Criador do projeto não foi encontrado"));
         projeto.setCriador(c);
+        if(projeto.getTitulo().equals(""))
+            projeto.setTitulo(null);
         projeto = projetoService.addProjeto(projeto);
         return ResponseEntity.ok().body(projeto);
     }
@@ -52,6 +54,8 @@ public class ProjetoResource {
         Projeto p = projetoService.findById(id);
         p.setTitulo(projeto.getTitulo());
         p.setDataAlteracao(projeto.getDataAlteracao());
+        if(p.getTitulo().equals(""))
+            p.setTitulo(null);
         projetoService.updateProjeto(p);
         return p;
     }
