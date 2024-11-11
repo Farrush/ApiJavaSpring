@@ -47,7 +47,7 @@ public class UsuarioResource {
             usuarioService.saveUsuario(usuario);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(400).build();
+            return ResponseEntity.status(400).body(e);
         }
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -38,9 +38,15 @@ public class ProjetoResource {
     }
 
     @RequestMapping(value = "/criador/{id}", method = RequestMethod.POST)
-    public Projeto adicionar(@PathVariable long id, @RequestBody Projeto projeto) {
-        projeto.setCriador(usuarioService.getUsuario(id));
-        return projetoService.addProjeto(projeto);
+    public ResponseEntity adicionar(@PathVariable long id, @RequestBody Projeto projeto) {
+        Usuario c = usuarioService.getUsuario(id);
+        if(c == null)
+            return ResponseEntity.status(404).body(new String("Criador do projeto não foi encontrado"));
+        projeto.setCriador(c);
+        if(projeto.getTitulo().equals(""))
+            projeto.setTitulo(null);
+        projeto = projetoService.addProjeto(projeto);
+        return ResponseEntity.ok().body(projeto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
@@ -48,6 +54,8 @@ public class ProjetoResource {
         Projeto p = projetoService.findById(id);
         p.setTitulo(projeto.getTitulo());
         p.setDataAlteracao(projeto.getDataAlteracao());
+        if(p.getTitulo().equals(""))
+            p.setTitulo(null);
         projetoService.updateProjeto(p);
         return p;
     }
