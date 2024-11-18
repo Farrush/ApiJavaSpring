@@ -1,6 +1,7 @@
 package com.boardhub.BoardPi.resources;
 
 import com.boardhub.BoardPi.entities.Prioridade;
+import com.boardhub.BoardPi.entities.Projeto;
 import com.boardhub.BoardPi.services.PrioridadeService;
 import com.boardhub.BoardPi.services.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class PrioridadeResource {
     public Prioridade adicionar(@PathVariable long id, @RequestBody Prioridade prioridade) {
         prioridade.setProjeto(projetoService.findById(id));
         return prioridadeService.addPrioridade(prioridade);
+    }
+    @RequestMapping(value = "/projeto/{id}", method = RequestMethod.GET)
+    public List<Prioridade> adicionar(@PathVariable long id) {
+        Projeto p = projetoService.findById(id);
+        return prioridadeService.getPorProjeto(p);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
