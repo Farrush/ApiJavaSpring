@@ -54,4 +54,8 @@ public class UsuarioService {
         }
         return null;
     }
+    public List<Usuario> buscarPorEmail(String email){
+        email = email + "%";
+        return usuarioRepository.findAllByEmail(email);
+    }
 }

@@ -29,6 +29,10 @@ public class UsuarioResource {
     public Usuario getUsuario(@PathVariable() long id){
         return usuarioService.getUsuario(id);
     }
+    @RequestMapping(value = "/email/{email}")
+    public List<Usuario> getUsuariosPorEmail(@PathVariable() String email){
+        return usuarioService.buscarPorEmail(email);
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginDTO> login(@RequestBody Usuario usuario) {

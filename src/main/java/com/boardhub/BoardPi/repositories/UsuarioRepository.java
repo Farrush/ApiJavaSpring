@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,6 +20,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(value = "SELECT id, email FROM usuario WHERE email = :email AND senha = sha2(:senha, 224)", nativeQuery = true)
     Optional<Tuple> validateUser(@Param("email") String email, @Param("senha") String senha);
+
+    @Query("select u from Usuario u where u.email like :email")
+    List<Usuario> findAllByEmail(@Param("email") String email);
 
     @Modifying
     @Transactional
