@@ -46,7 +46,7 @@ public class Tarefa {
     @JsonIgnore
     public List<Comentario> comentarios;
 
-    @ManyToOne (cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne ( optional = true)
     @JoinColumn (nullable = true)
     private Prioridade tagPrioridade;
 
