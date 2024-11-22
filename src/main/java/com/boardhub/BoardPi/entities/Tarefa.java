@@ -42,7 +42,7 @@ public class Tarefa {
     @Transient
     private long idLista;
 
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "tarefa", orphanRemoval = true )
+    @OneToMany (mappedBy = "tarefa", orphanRemoval = true )
     @JsonIgnore
     public List<Comentario> comentarios;
 
@@ -98,6 +98,14 @@ public class Tarefa {
 
     public void setCriador(Usuario criador) {
         this.criador = criador;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 
     public void setId(Long id) {

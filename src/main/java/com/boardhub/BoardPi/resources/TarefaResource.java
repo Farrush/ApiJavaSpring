@@ -48,7 +48,11 @@ public class TarefaResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Tarefa alterar(@PathVariable long id, @RequestBody Tarefa tarefa){
+        Tarefa t = tarefaService.getTarefa(id);
         tarefa.setId(id);
+        tarefa.setCriador(t.getCriador());
+        tarefa.setLista(t.getLista());
+        tarefa.setComentarios(t.getComentarios());
         return tarefaService.updateTarefa(tarefa);
     }
     @RequestMapping(value = "/{id}/lista/{idLista}", method = RequestMethod.PUT)
@@ -61,7 +65,7 @@ public class TarefaResource {
     }
 
     @RequestMapping(value = "/{id}/responsavel/{idResponsavel}", method = RequestMethod.PUT)
-    public Tarefa alterar(@PathVariable long id, @PathVariable long idResponsavel, @RequestBody Tarefa tarefa){
+    public Tarefa alterarResponsavel(@PathVariable long id, @PathVariable long idResponsavel, @RequestBody Tarefa tarefa){
         tarefa.setId(id);
         tarefa.setResponsavel(usuarioService.getUsuario(idResponsavel));
         return tarefaService.updateTarefa(tarefa);

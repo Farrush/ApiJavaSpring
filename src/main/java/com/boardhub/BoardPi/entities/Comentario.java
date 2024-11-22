@@ -15,7 +15,7 @@ public class Comentario {
     @Column
     private String conteudo;
 
-    @ManyToOne (cascade = CascadeType.REFRESH)
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn
     @JsonIgnore
     private Tarefa tarefa;
